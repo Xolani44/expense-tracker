@@ -1,5 +1,7 @@
 # Expense Tracker API
 
+[![CI/CD Pipeline](https://github.com/Xolani44/expense-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/Xolani44/expense-tracker/actions/workflows/ci.yml)
+
 A REST API built with Node.js, Express, and PostgreSQL — containerized with Docker.
 
 ## Purpose
@@ -29,6 +31,7 @@ financial reporting.
 - `pg` (node-postgres) — PostgreSQL client for Node.js
 - `dotenv` — loads environment variables from `.env`
 - Docker & docker-compose — containerization and local dev setup
+- GitHub Actions — automated CI/CD pipeline (builds and pushes Docker image on every push to main)
 
 ## Prerequisites
 
@@ -185,6 +188,8 @@ Returns `204 No Content` on success.
 
 ```
 expense-tracker/
+├── .github/workflows/
+│   └── ci.yml         # GitHub Actions CI/CD pipeline
 ├── index.js           # Express server and route handlers
 ├── db.js              # PostgreSQL connection pool
 ├── init.sql           # Database schema — runs on first container start
@@ -193,6 +198,14 @@ expense-tracker/
 ├── .env.example       # Environment variable template
 └── package.json       # Project dependencies and scripts
 ```
+
+## CI/CD Pipeline
+
+Every push to `main` triggers a GitHub Actions workflow that:
+1. Checks out the code
+2. Logs into Docker Hub
+3. Builds the Docker image
+4. Pushes it to Docker Hub as `your-username/expense-tracker:latest`
 
 ## Decisions & Trade-offs
 
@@ -215,4 +228,6 @@ expense-tracker/
 - Add error handling middleware to remove repeated try/catch boilerplate
 - Write automated tests
 - Add pagination to `GET /expenses` for large datasets
-- Add date range filtering to `GET /expenses`a
+- Add date range filtering to `GET /expenses`
+- Add category filtering to `GET /expenses`
+- Add a monthly budget report endpoint
